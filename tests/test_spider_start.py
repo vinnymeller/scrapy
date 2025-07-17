@@ -138,6 +138,11 @@ class MainTestCase(TestCase):
             ScrapyDeprecationWarning, match=r"use Spider\.start\(\) instead"
         ) as messages:
             await self._test_spider(TestSpider, [])
+        import pprint
+        msgs = ""
+        for msg in messages:
+            msgs += pprint.pformat(msg.filename) + "\n\n===============\n\n"
+        assert msgs == "this_isnt_equal!"
         assert messages[0].filename.endswith("test_spider_start.py")
 
     async def _test_start(self, start_, expected_items=None):
